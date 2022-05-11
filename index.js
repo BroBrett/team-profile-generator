@@ -27,7 +27,50 @@ function managerQuestions() {
             },
             {
                 type: "input",
-            }
+                name: "id",
+                message: "What is the manager's ID?",
+                validate: (id) => {
+                    if (isNaN(id)) {
+                        console.log("Please enter Manager's ID");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What is the manager's email address?",
+                validate: (email) => {
+                    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                        return true;
+                    } else {
+                        console.log("Not a valid email address.");
+                        return false;
+                    }
+                }
+            },
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "What is the manager's office number?",
+                validate: (officeNumberInput) => {
+                    if (isNaN(officeNumberInput)) {
+                        console.log("Please enter a valid office number.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+            },
         ])
+        .then((managerInput) => {
+            const { name, id, officeNumber } = managerInput;
+            const manager = new Manager(name, id, email, officeNumber);
+
+            employees.push(manager);
+            teamChoice();
+        })
     )
 }
