@@ -72,5 +72,43 @@ function managerQuestions() {
             employees.push(manager);
             teamChoice();
         })
+    );
+}
+
+managerQuestions();
+
+function engineerQuestions() {
+    return (
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What is the engineer's name?",
+                validate: (nameInput) => {
+                    if (nameInput) {
+                        return true;
+                    } else {
+                        console.log("Must include the engineers name.");
+                        return false;
+                    }
+                },
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What is the engineer's ID?",
+                validate: (idInput) => {
+                    if (isNaN(idInput)) {
+                        console.log("Please enter engineer's ID to proceed.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+            },
+            {
+                
+            }
+        ])
     )
 }
