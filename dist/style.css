@@ -1,0 +1,24 @@
+header {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 500;
+    background-color: lightgray;
+}
+
+.teamCards {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 3rem;
+    gap: 2rem;
+}
+
+.cardTitle {
+    text-align: center;
+    font-weight: 500;
+}
+
+.cardSub {
+    text-align: center;
+}
