@@ -17,6 +17,7 @@ Node.js application that takes in information about employees on a software engi
 ## Table of Contents:
 ---
 * [License](#license)
+* [Video](#Video)
 * [Screenshot](#Screenshot)
 * [Contributions](#contributions)
 * [Author](#author)
@@ -32,6 +33,10 @@ Node.js application that takes in information about employees on a software engi
 
 <br>
 <br>
+
+## Video:
+---
+[![Video-Link](images/youtube-screenshot.png)](https://www.youtube.com/watch?v=F9wB_39rgXo&t=5s)
 
 ## Screenshot:
 ---
