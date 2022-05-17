@@ -1,207 +1,240 @@
-const inquirer = require("inquirer");
-const fs = require("fs");
-const path = require("path");
-const generate = require("./src/generateHTML");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const Manager = require("./lib/Manager");
+const inquirer = require('inquirer');
+const fs = require('fs');
+const path = require('path');
+const generateHtml = require('./src/generateHTML');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-const employees = [];
+const teamArr = [];
 
-// Manager Questions
-function managerQuestions() {
-    return (
-        inquirer.prompt([
+async function managerQuestions() {
+    try {
+        const {name, id, email, officeNumber} = await inquirer.prompt([
             {
-                type: "input",
-                name: "name",
-                message: "What is the team manager's name?",
+                type: 'input',
+                name: 'name',
+                message: "Team manager's name?",
                 validate: (name) => {
                     if (name) {
                         return true;
                     } else {
-                        console.log("Manager's name is required.");
+                        console.log("Manager's name must be included.");
                         return false;
                     }
                 }
             },
             {
-                type: "input",
-                name: "id",
-                message: "What is the manager's ID?",
+                type: 'input',
+                name: 'id',
+                message: "Manager's id number?",
                 validate: (id) => {
                     if (isNaN(id)) {
-                        console.log("Please enter Manager's ID");
+                        console.log(" *Id must be a number.");
                         return false;
                     } else {
                         return true;
                     }
-                },
+                }
             },
             {
-                type: "input",
-                name: "email",
-                message: "What is the manager's email address?",
+                type: 'input',
+                name: 'email',
+                message: "Manager's email address?",
                 validate: (email) => {
                     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
                         return true;
                     } else {
-                        console.log("Not a valid email address.");
+                        console.log(" *Not a valid email address.");
                         return false;
                     }
                 }
             },
             {
-                type: "input",
-                name: "officeNumber",
-                message: "What is the manager's office number?",
-                validate: (officeNumberInput) => {
-                    if (isNaN(officeNumberInput)) {
-                        console.log("Please enter a valid office number.");
+                type: 'input',
+                name: 'officeNumber',
+                message: "Manager's office number?",
+                validate: (officeNumber) => {
+                    if (isNaN(officeNumber)) {
+                        console.log(' *Please enter a valid office number.');
                         return false;
                     } else {
                         return true;
                     }
-                },
-            },
+                }
+    
+            }
         ])
-        .then((managerInput) => {
-            const { name, id, officeNumber } = managerInput;
-            const manager = new Manager(name, id, email, officeNumber);
+        const managerData = new Manager (name, id, email, officeNumber);
+        teamArr.push(managerData);
+        return crossroads();
+    } catch (err) {
+        console.error(err)
+    }
+};
 
-            employees.push(manager);
-            teamChoice();
-        })
-    );
+async function crossroads() {
+    try {
+        const {choice} = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'choice',
+                message: 'Add a team member?',
+                choices: [
+                    'Engineer',
+                    'Intern',
+                    'All-done! Build my team!'
+                ]
+            }
+        ])
+        switch(choice) {
+            case 'Engineer':
+                return engineerQuestions();
+            case 'Intern':
+                return internQuestions();
+            default: 
+                return buildTeam();
+        }
+    } catch (err) {
+        console.error(err)
+    }
+};
+
+async function engineerQuestions () {
+    try {
+        const {name, id, email, github} = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: "Engineer's name?",
+                validate: (name) => {
+                    if (name) {
+                        return true;
+                    } else {
+                        console.log("Engineer's name must be included.");
+                        return false;
+                    }
+                }
+    
+            },
+            {
+                type: 'input',
+                name: 'id',
+                message: "Engineer's id number?",
+                validate: (id) => {
+                    if (isNaN(id)) {
+                        console.log(" *Id must be a number.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'email',
+                message: "Engineer's email address?",
+                validate: (email) => {
+                    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                        return true;
+                    } else {
+                        console.log(" *Not a valid email address.");
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'github',
+                message: "Engineer's github username?",
+                validate: (github) => {
+                    if (github) {
+                        return true;
+                    } else {
+                        console.log("Engineer's github username must be included.");
+                    }
+                }
+            }
+        ])
+        const engineerData = new Engineer (name, id, email, github);
+        teamArr.push(engineerData);
+        return crossroads();
+    } catch (err) {
+        console.error(err)
+    }
+};
+
+async function internQuestions() {
+    try {
+        const {name, id, email, school} = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: "Intern's name?",
+                validate: (name) => {
+                    if (name) {
+                        return true;
+                    } else {
+                        console.log("Intern's name must be included.");
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'id',
+                message: "Intern's id number?",
+                validate: (id) => {
+                    if (isNaN(id)) {
+                        console.log(" *Id must be a number.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'email',
+                message: "Intern's email address?",
+                validate: (email) => {
+                    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                        return true;
+                    } else {
+                        console.log(" *Not a valid email address.");
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'school',
+                message: 'What school does the intern attend?',
+                validate: (school) => {
+                    if (school) {
+                        return true;
+                    } else {
+                        console.log("Please enter the school that the intern attends.");
+                        return false;
+                    }
+                }
+            }
+        ])
+        const internData = new Intern (name, id, email, school);
+        teamArr.push(internData);
+        return crossroads();
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+async function buildTeam() {
+    try {
+        fs.writeFileSync(path.join(__dirname, 'dist', 'index.html'), generateHtml(teamArr), 'UTF8')
+        console.log("Successfully built your team!");
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 managerQuestions();
-
-function engineerQuestions() {
-    return (
-        inquirer.prompt([
-            {
-                type: "input",
-                name: "name",
-                message: "What is the engineer's name?",
-                validate: (nameInput) => {
-                    if (nameInput) {
-                        return true;
-                    } else {
-                        console.log("Must include the engineers name.");
-                        return false;
-                    }
-                },
-            },
-            {
-                type: "input",
-                name: "id",
-                message: "What is the engineer's ID?",
-                validate: (idInput) => {
-                    if (isNaN(idInput)) {
-                        console.log("Please enter engineer's ID to proceed.");
-                        return false;
-                    } else {
-                        return true;
-                    }
-                },
-            },
-            {
-              type: "input",
-              name: "email",
-              message: "What is the engineer's email address?",
-              validate: (email) => {
-                  valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-                  if (valid) {
-                      return true;
-                  } else {
-                      console.log("Enter a valid email address.");
-                      return false;
-                  }
-              },  
-            },
-            {
-              type: "input",
-              name: "github",
-              message: "What is the engineer's github username?",
-              validate: (githubInput) => {
-                  if (githubInput) {
-                      return true;
-                  } else {
-                      console.log("Include engineer's github information to proceed.");
-                      return false;
-                  }
-              },  
-            },
-        ])
-    );
-}
-
-function internQuestions() {
-    return (
-        inquirer.prompt([
-            {
-                type: "input",
-                name: "name",
-                message: "What is the intern's name?",
-                validate: (nameInput) => {
-                    if (nameInput) {
-                        return true;
-                    } else {
-                        console.log("Include intern's name to procees");
-                        return false;
-                    }
-                },
-            },
-            {
-                type: "input",
-                name: "id",
-                message: "What is the Intern's employee ID?",
-                validate: (idInput) => {
-                    if (idInput) {
-                        return false;
-                    } else {
-                        console.log("Enter intern's employee ID.");
-                        return true;
-                    }
-                },
-
-            },
-            {
-                type: "input",
-                name: "email",
-                message: "What is the intern's email address?",
-                validate: (email) => {
-                    valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-                    if (valid) {
-                        return true;
-                    } else {
-                        console.log("Enter a valid email address.");
-                        return false;
-                    }
-                },
-            },
-            {
-                type: "input",
-                name: "school",
-                message: "What is the name of the intern's school?",
-                validate: (schoolInput) => {
-                    if (schoolInput) {
-                        return true;
-                    } else {
-                        console.log("Include intern's school.");
-                        return false;
-                    }
-                },
-            },
-        ])
-    );
-}
-
-function buildTeam() {
-    fs.writeFileSync(
-        path.join(path.resolve(_dirname, 'dist'), "index.html"),
-        generate(employees),
-        "utf-8"
-    );
-}

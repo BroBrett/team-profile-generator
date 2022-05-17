@@ -1,52 +1,73 @@
+function generateCards(team) {
+  const html = [];
+  
+  for (let i = 0; i < team.length; i++) {
+      let teamMember = team[i];
+      let role = teamMember.getRole();
+      switch (role) {
+          case "Manager":
+              html.push(generateManagerCard(teamMember));
+              break;
+          case "Engineer":
+              html.push(generateEngineerCard(teamMember));
+              break;
+          case "Intern":
+              html.push(generateInternCard(teamMember));
+              break;
+      }
+  }
+  return html.join('')
+}
+
 function generateManagerCard(manager) {
-    return `
-    <div class="card" style="width: 18rem;">
-       <div class ="cardBody">
-       <h4 class="cardTitle">Manager</h4>
-       <h5 ${manager.name}</h5>
-       <div class="card" style="width: 16rem;">
-         <ul class="list-group list-group-flush">
-         <li class="list-group-item"><strong>ID:</strong> ${manager.id}</li>
-         <li class="list-group-item"><strong>Email:</strong><br> ${manager.email}</li>
-         <li class="list-group-item"><strong>Office Number:</strong> ${manager.officeNumber}</li>
-         </ul>
-       </div>
-       </div>
-    </div>`;
+  return `
+  <div class="card" style="width: 20rem;">
+          <div class="card-body">
+          <h5 class="card-title">Manager <i class="fa-solid fa-mug-hot"></i></h5>
+          <h6 class="card-subtitle mb-2 text-muted">${manager.name}</h6>
+          <div class="card" style="width: 18rem;">
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>ID:</strong> ${manager.id}</li>
+              <li class="list-group-item"><strong>Email:</strong><br> ${manager.email}</li>
+              <li class="list-group-item"><strong>Office Number:</strong> ${manager.officeNumber}</li>
+              </ul>
+          </div>
+          </div>
+  </div>`
 }
 
 function generateEngineerCard(engineer) {
   return `
-  <div class="card" style="width: 18rem;">
-     <div class ="cardBody">
-     <h4 class="cardTitle">Manager</h4>
-     <h5 ${engineer.name}</h5>
-     <div class="card" style="width: 16rem;">
-       <ul class="list-group list-group-flush">
-       <li class="list-group-item"><strong>ID:</strong> ${engineer.id}</li>
-       <li class="list-group-item"><strong>Email:</strong><br> ${engineer.email}</li>
-       <li class="list-group-item"><strong>Github:</strong> ${engineer.officeNumber}</li>
-       </ul>
-     </div>
-     </div>
-  </div>`;
+  <div class="card" style="width: 20rem;">
+          <div class="card-body">
+          <h5 class="card-title">Engineer <i class="fa-solid fa-glasses"></i></h5>
+          <h6 class="card-subtitle mb-2 text-muted">${engineer.name}</h6>
+          <div class="card" style="width: 18rem;">
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>ID:</strong> ${engineer.id}</li>
+              <li class="list-group-item"><strong>Email:</strong><br> ${engineer.email}</li>
+              <li class="list-group-item"><strong>GitHub:</strong> ${engineer.github}</li>
+              </ul>
+          </div>
+          </div>
+  </div>`
 }
 
-function generateInternCard(Intern) {
+function generateInternCard(intern) {
   return `
-  <div class="card" style="width: 18rem;">
-     <div class ="cardBody">
-     <h4 class="cardTitle">Manager</h4>
-     <h5 ${Intern.name}</h5>
-     <div class="card" style="width: 16rem;">
-       <ul class="list-group list-group-flush">
-       <li class="list-group-item"><strong>ID:</strong> ${Intern.id}</li>
-       <li class="list-group-item"><strong>Email:</strong><br> ${Intern.email}</li>
-       <li class="list-group-item"><strong>School:</strong> ${Intern.officeNumber}</li>
-       </ul>
-     </div>
-     </div>
-  </div>`;
+  <div class="card" style="width: 20rem;">
+          <div class="card-body">
+          <h5 class="card-title">Intern <i class="fa-solid fa-graduation-cap"></i></h5>
+          <h6 class="card-subtitle mb-2 text-muted">${intern.name}</h6>
+          <div class="card" style="width: 18rem;">
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>ID:</strong> ${intern.id}</li>
+              <li class="list-group-item"><strong>Email:</strong><br> ${intern.email}</li>
+              <li class="list-group-item"><strong>School:</strong> ${intern.school}</li>
+              </ul>
+          </div>
+          </div>
+  </div>`
 }
 
 module.exports = team => {
@@ -70,5 +91,3 @@ module.exports = team => {
 </body>
 </html>`
 };
-
-module.exports = generateHTML;
